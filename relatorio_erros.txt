@@ -1,0 +1,12 @@
+Erros encontrados na API do INPE
+
+Registrado em 21/06/2021
+
+1 - O XML que carrega a tag <tempo> possui o valor "n " (com espaço), e isso
+gera erro ao buscar o valor.
+
+2 - Na previsão para 7 dias só é listado 6 dias de previsão.
+
+3 - Na busca estendida por previsão a tag <dia> repete o primeiro dia por seis vezes
+e mostra o último como sendo o seguinte. Ou seja, por exemplo, se consultar a partir de
+hoje (21/06/2021), este dia será repetido seis vezes e na sétima será mostrado o dia 22/06/2021.

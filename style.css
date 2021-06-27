@@ -1,0 +1,46 @@
+*{
+    font-family: sans-serif;
+    padding: 0 5px;
+}
+
+header{
+    text-align: center;
+    position: relative;
+    top: 50px;
+    margin-bottom: 50px !important;
+}
+
+#campos_pesquisa label {
+    position: relative;
+    bottom: 10px;
+    font-weight: bold;
+    text-align: left !important;
+    font-size: 14px;
+}
+
+#txtPrevisao {
+    width: 100%;
+}
+
+#txtEstado {
+    width: 100%;
+}
+
+#campos_pesquisa {
+    position: relative;
+    top: 50px;
+}
+
+#btnPesq {
+    position: relative;
+    top: 24px;
+}
+
+#resultado_pesquisa {
+    position: relative;
+    top: 150px !important;
+}
+
+#btnPesq{
+    width: 100%;
+}
