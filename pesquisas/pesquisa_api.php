@@ -5,9 +5,10 @@ if (isset($_POST['btnPesq'])) {
     $tipo_previsao = $_POST['txtPrevisao'];
     $uf = $_POST['txtEstado'];
     $cidade = str_replace(" ", "%20", $_POST['txtCidade']);
-    $servico = true;
-
+    $servico = true;    
     $req_code = '';
+
+    $array_previsao = [];
 
     function sanitizeString($str)
     {
@@ -18,9 +19,7 @@ if (isset($_POST['btnPesq'])) {
         $str = preg_replace('/[óòõôö]/ui', 'o', $str);
         $str = preg_replace('/[úùûü]/ui', 'u', $str);
         $str = preg_replace('/[ç]/ui', 'c', $str);
-        //$str = preg_replace('/[,(),;:|!"#$%&/=?~^><ªº-]/', '_', $str);
-        //$str = preg_replace('/[^a-z0-9]/i', '_', $str);
-        //$str = preg_replace('/_+/', '_', $str); //
+        
         return $str;
 
     }
@@ -52,17 +51,19 @@ if (isset($_POST['btnPesq'])) {
                 $id_cidade = $result->cidade->id;
                 return $id_cidade;
             } else {
-                echo 'Cidade não encontrada';
+                echo 'Cidade não encontrada =/';
+                exit();
             }
         }
     }
 
+   
     function previsao($id_cidade)
     {
 
         $array = [
 
-            "ec" => "Encoberto com Chuvas Isoladas", "ci" => "Chuvas Isoladas", "c" => "Chuva", "in" => "Instável",
+            "ec" => "Encoberto com Chuvas Isoladas", "ci" => "Chuvas Isoladas", "c" => "Chuva", "c " => "Chuva", "in" => "Instável",
             "pp" => "Poss. de Pancadas de Chuva", "cm" => "Chuva pela Manhã", "cn" => "Chuva a Noite", "pt" => "Pancadas de Chuva a Tarde",
             "pm" => "Pancadas de Chuva pela Manhã", "np" => "Nublado e Pancadas de Chuva", "pc" => "Pancadas de Chuva", "pn" => "Parcialmente Nublado",
             "cv" => "Chuvisco", "ch" => "Chuvoso", "t" => "Tempestade", "ps" => "Predomínio de Sol",
@@ -78,27 +79,27 @@ if (isset($_POST['btnPesq'])) {
         if ($GLOBALS['tipo_previsao'] == "prev_04") {
 
             $url_previsao = "http://servicos.cptec.inpe.br/XML/cidade/" . $id_cidade . "/previsao.xml";
-            $req = simplexml_load_string(file_get_contents($url_previsao));
+            $req = simplexml_load_string(file_get_contents($url_previsao));            
 
             if ($GLOBALS['servico'] == true) {
 
-                echo '<p>Estado: ' . $req->uf . '</p>' .
-                '<p>Cidade: ' . $req->nome . '</p>' .
-                    '<hr>';
-
                 for ($i = 0; $i < 4; $i++) {
+
                     $data = explode('-', $req->previsao[$i]->dia);
                     $dia = $data[2];
                     $mes = $data[1];
                     $ano = $data[0];
+                    $data_unif = $dia.'/'.$mes.'/'.$ano;
 
-                    echo '<p>Dia: ' . $dia . '/' . $mes . '/' . $ano . '</p>' .
-                    '<p>Previsão: ' . $array['' . $req->previsao[$i]->tempo] . '</p>' .
-                    '<p>Máxima: ' . $req->previsao[$i]->maxima . '°C</p>' .
-                    '<p>Mínima: ' . $req->previsao[$i]->minima . '°C</p>' .
-                    '<p>IUV: ' . $req->previsao[$i]->iuv . '</p>' .
-                        '<hr>';
+                    
+                    $array_previsao[$i] = [ "estado" => $req->uf, "cidade" => $req->nome,
+                        "data" => $data_unif, "condicao" => $array['' . $req->previsao[$i]->tempo],
+                        "maxima" => $req->previsao[$i]->maxima, "minima" => $req->previsao[$i]->minima,
+                        "iuv" => $req->previsao[$i]->iuv
+                    ]; 
                 }
+
+                return $array_previsao;                
 
             } else {
                 echo 'Ops! Serviço indisponível no momento =/';
@@ -111,24 +112,23 @@ if (isset($_POST['btnPesq'])) {
 
             if ($GLOBALS['servico'] == true) {
 
-                echo '<p>Estado: ' . $req->uf . '</p>' .
-                '<p>Cidade: ' . $req->nome . '</p>' .
-                    '<hr>';               
-
-                for ($i = 0; $i < 6; $i++) {
+                for ($i = 0; $i < 5; $i++) {
                     $data = explode('-', $req->previsao[$i]->dia);
+
                     $dia = $data[2];
                     $mes = $data[1];
                     $ano = $data[0];
+                    $data_unif = $dia.'/'.$mes.'/'.$ano;
 
                     
-                    echo '<p>Dia: ' . $dia . '/' . $mes . '/' . $ano . '</p>' .
-                    '<p>Previsão: ' . $array['' . $req->previsao[$i]->tempo] . '</p>' .
-                    '<p>Máxima: ' . $req->previsao[$i]->maxima . '°C</p>' .
-                    '<p>Mínima: ' . $req->previsao[$i]->minima . '°C</p>' .
-                    '<p>IUV: ' . $req->previsao[$i]->iuv . '</p>' .
-                        '<hr>';
+                    $array_previsao[$i] = [ "estado" => $req->uf, "cidade" => $req->nome,
+                        "data" => $data_unif, "condicao" => $array['' . $req->previsao[$i]->tempo],
+                        "maxima" => $req->previsao[$i]->maxima, "minima" => $req->previsao[$i]->minima,
+                        "iuv" => $req->previsao[$i]->iuv
+                    ]; 
                 }
+
+                return $array_previsao;                
 
             } else {
                 echo 'Ops! Serviço indisponível no momento =/';
@@ -141,23 +141,22 @@ if (isset($_POST['btnPesq'])) {
 
             if ($GLOBALS['servico'] == true) {
 
-                echo '<p>Estado: ' . $req->uf . '</p>' .
-                '<p>Cidade: ' . $req->nome . '</p>' .
-                    '<hr>';
-
                 for ($i = 0; $i < 7; $i++) {
                     $data = explode('-', $req->previsao[$i]->dia);
                     $dia = $data[2];
                     $mes = $data[1];
                     $ano = $data[0];
+                    $data_unif = $dia.'/'.$mes.'/'.$ano;
 
-                    echo '<p>Dia: ' . $dia . '/' . $mes . '/' . $ano . '</p>' .
-                    '<p>Previsão: ' . $array['' . $req->previsao[$i]->tempo] . '</p>' .
-                    '<p>Máxima: ' . $req->previsao[$i]->maxima . '°C</p>' .
-                    '<p>Mínima: ' . $req->previsao[$i]->minima . '°C</p>' .
-                    '<p>IUV: ' . $req->previsao[$i]->iuv . '</p>' .
-                        '<hr>';
+                    
+                    $array_previsao[$i] = [ "estado" => $req->uf, "cidade" => $req->nome,
+                        "data" => $data_unif, "condicao" => $array['' . $req->previsao[$i]->tempo],
+                        "maxima" => $req->previsao[$i]->maxima, "minima" => $req->previsao[$i]->minima,
+                        "iuv" => $req->previsao[$i]->iuv
+                    ];
                 }
+
+                return $array_previsao;                
 
             } else {
                 echo 'Ops! Serviço indisponível no momento =/';
@@ -165,19 +164,16 @@ if (isset($_POST['btnPesq'])) {
         }
     }
 
-
     function resultado_previsao() {
-
+        
         if ($GLOBALS['req_code'] >= 500) {
-            $id = pesquisa_cidade();
-            return previsao($id);
+            echo 'Ops! Serviço indisponível no momento =/';            
         } else {
-            echo 'Ops! Serviço indisponível no momento =/';
-        }      
+            $id = pesquisa_cidade();
+            $dados_previsao = previsao($id);     
 
-    }   
+            return $dados_previsao;
 
-    resultado_previsao();
-
-
+        }
+    }     
 }

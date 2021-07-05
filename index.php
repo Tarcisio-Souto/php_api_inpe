@@ -11,16 +11,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="estilo/style.css">
 
 
     <script type="text/javascript">
 
-            /* Solução em Javascript para impedir o reenvio de formulário */
+        /* Solução em Javascript para impedir o reenvio de formulário */
 
-            if (window.history.replaceState) {
-		        window.history.replaceState( null, null, window.location.href );
-		    }
+        if (window.history.replaceState) {
+		    window.history.replaceState( null, null, window.location.href );
+		}
+
+        /* Essa função foi necessária p/ que a pesquisa do funcionário seja
+        possível através da tecla 'Enter' já que não há 'submit' */
+
+        $(document).keypress(function (e) {
+
+            if (e.which == 13) {
+                pesqUser();
+            }
+
+        });
 
     </script>
 
@@ -102,19 +113,36 @@
             </div>
             <div class="col-md-2"></div>
         </div>
+        
+        <section id="resultado_pesquisa">
 
+            <?php 
+                include 'pesquisas/pesquisa_api.php';
 
-        <div class="row" id="resultado_pesquisa">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+                if (function_exists('resultado_previsao')){
+                    
+                    if ($GLOBALS['tipo_previsao'] == "prev_04") {
+                        include 'resultados/pesq_04_dias.php';
+                    } else if ($GLOBALS['tipo_previsao'] == "prev_07") {
+                        include 'resultados/pesq_07_dias.php';
+                    } else if ($GLOBALS['tipo_previsao'] == "prev_estendida") {
+                        include 'resultados/pesq_estendida.php';
+                    }
+                            
+                }    
+            ?>
 
-                <?php include 'pesquisa_api.php'; ?>
-
-            </div>
-            <div class="col-md-2"></div>
-        </div>
+        </section>
 
     </div>
+
+    <footer class="footer navbar-fixed-bottom">
+        <div class="row">
+            <div class="col-md-12" align="center">
+                <p>Dev by Tarcisio Souto</p>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

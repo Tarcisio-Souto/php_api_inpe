@@ -1,0 +1,113 @@
+*{
+    font-family: sans-serif;
+    padding: 0 5px;
+}
+
+body{
+    background-color: rgb(155, 187, 176);
+}
+
+header{
+    text-align: center;
+    position: relative;
+    top: 50px;
+    margin-bottom: 50px !important;
+    background-color: gray;
+    padding: 15px 0;
+}
+
+header h3{
+    position: relative;
+    top: 7px;
+    color: white;
+}
+
+header p{
+    position: relative;
+    top: 7px;
+    color: white;
+}
+
+#campos_pesquisa label {
+    position: relative;
+    bottom: 10px;
+    font-weight: bold;
+    text-align: left !important;
+    font-size: 14px;
+}
+
+#txtPrevisao {
+    width: 100%;
+}
+
+#txtEstado {
+    width: 100%;
+}
+
+#campos_pesquisa {
+    position: relative;
+    top: 50px;
+}
+
+#btnPesq {
+    position: relative;
+    top: 24px;
+    width: 100%;
+}
+
+#resultado_pesquisa {
+    position: relative;
+    top: 70px !important;
+}
+
+.estado_cidade p{
+    text-align: center;
+    font-size: 15px;
+}
+
+.estado_cidade span{
+    font-weight: bold;
+}
+
+.result_previsoes {
+    position: relative;
+    top: 35px;
+    border: 1px solid rgb(36, 141, 240);
+    padding: -15px 30px;
+    font-size: 13px;
+    background-color: white;
+}
+
+.result_previsoes span{
+    font-weight: bold;
+}
+
+.row_result {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+
+.result_previsoes img {
+    position: relative;
+    top: 30px;
+    width: 60%;
+}
+
+footer {
+    position: relative;
+    top: 250px;
+}
+
+footer p{
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media screen and (max-width: 740px) {
+
+    .result_previsoes {
+        border: none;   
+    }
+
+}
