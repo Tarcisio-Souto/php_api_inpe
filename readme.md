@@ -23,19 +23,19 @@ IMPORTANTE: devido ao corte de recursos feito pelo governo federal, os serviços
 
 <h3>Tela Principal:</h3><br>
 
-![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/tree/main/capturas/tela_principal.PNG)
+![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/blob/main/capturas/tela_principal.PNG)
 
 <br>
 
 <h3>Selecionando local:</h3><br>
 
-![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/tree/main/capturas/selecao_local.PNG)
+![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/blob/main/capturas/selecao_local.PNG)
 
 <br>
 
 <h3>Retornando pesquisa:</h3><br>
 
-![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/tree/main/capturas/retorno_pesquisa.PNG)
+![Screenshot](https://github.com/Tarcisio-Souto/php_api_inpe/blob/main/capturas/retorno_pesquisa.PNG)
 
 <br>
 
